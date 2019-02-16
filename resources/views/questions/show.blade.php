@@ -17,8 +17,7 @@
                     <hr>
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a href=""
-                                title="This question is useful" class="vote-up {{ Auth::guest() ? 'off' : '' }}"
+                            <a title="This question is useful" class="vote-up {{ Auth::guest() ? 'off' : '' }}"
                                 onclick="event.preventDefault();document.getElementById('up-vote-question-{{ $question->id }}').submit();">
                                 <i class="fas fa-caret-up fa-3x"></i>
                             </a>
