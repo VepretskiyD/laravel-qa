@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use VotableTrait;
-    
+
     protected $fillable = ['title', 'body'];
+    
+    protected $appends = ['created_date'];
 
     public function User() {
         return $this->belongsTo(User::class);
