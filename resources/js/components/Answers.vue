@@ -15,6 +15,16 @@
               :key="answer.id"
               :answer="answer"
             />
+            <div class="text-center mt-3">
+              <button
+                v-if="nextUrl"
+                type="button"
+                class="btn btn-outline-secondary"
+                @click.prevent="fetch(nextUrl)"
+              >
+                Load more answers
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -30,20 +40,36 @@ export default {
     Answer,
   },
   props: {
-    answers: {
-      type: Array,
+    question: {
+      type: Object,
       default() {
-        return [];
+        return {};
       },
     },
-    count: {
-      type: Number,
-      default: 0,
-    },
+  },
+  data() {
+    return {
+      questionId: this.question.id,
+      count: this.question.answers_count,
+      answers: [],
+      nextUrl: null,
+    };
   },
   computed: {
     title() {
-      return this.count + ' ' + (this.count > 1 ? 'Answers' : 'Answer');
+      return `${this.count} ${this.count > 1 ? 'Answers' : 'Answer'}`;
+    },
+  },
+  created() {
+    this.fetch(`/questions/${this.questionId}/answers`);
+  },
+  methods: {
+    fetch(endpoint) {
+      axios.get(endpoint)
+        .then(({ data }) => {
+          this.answers.push(...data.data);
+          this.nextUrl = data.next_page_url;
+        });
     },
   },
 };
