@@ -1,44 +1,52 @@
 <template>
-  <div
-    v-cloak
-    v-if="count"
-    class="row mt-4"
-  >
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">
-            <h2>{{ title }}</h2>
-            <hr>
-            <answer
-              v-for="(answer, index) in answers"
-              :key="answer.id"
-              :answer="answer"
-              @deleted="remove(index)"
-            />
-            <div class="text-center mt-3">
-              <button
-                v-if="nextUrl"
-                type="button"
-                class="btn btn-outline-secondary"
-                @click.prevent="fetch(nextUrl)"
-              >
-                Load more answers
-              </button>
+  <div>
+    <div
+      v-cloak
+      v-if="count"
+      class="row mt-4"
+    >
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <h2>{{ title }}</h2>
+              <hr>
+              <answer
+                v-for="(answer, index) in answers"
+                :key="answer.id"
+                :answer="answer"
+                @deleted="remove(index)"
+              />
+              <div class="text-center mt-3">
+                <button
+                  v-if="nextUrl"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click.prevent="fetch(nextUrl)"
+                >
+                  Load more answers
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <NewAnswer
+      :question-id="questionId"
+      @created="add"
+    />
   </div>
 </template>
 
 <script>
 import Answer from './Answer.vue';
+import NewAnswer from './NewAnswer.vue';
 
 export default {
   components: {
     Answer,
+    NewAnswer,
   },
   props: {
     question: {
@@ -65,6 +73,10 @@ export default {
     this.fetch(`/questions/${this.questionId}/answers`);
   },
   methods: {
+    add(answer) {
+      this.answers.push(answer);
+      this.count += 1;
+    },
     fetch(endpoint) {
       axios.get(endpoint)
         .then(({ data }) => {
