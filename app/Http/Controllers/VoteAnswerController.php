@@ -7,7 +7,7 @@ use App\Answer;
 
 class VoteAnswerController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,7 +22,15 @@ class VoteAnswerController extends Controller
     {
         $vote = (int) request()->vote;
 
-        auth()->user()->voteAnswer($answer, $vote);
-        return back();
+        $votesCount = auth()->user()->voteAnswer($answer, $vote);
+
+        if (request()->expectsJson()) {
+          return response()->json([
+            'message' => 'Thanks for the feedback',
+            'votesCount' => $votesCount
+          ]);
+        } else {
+          return back();
+        }
     }
 }
