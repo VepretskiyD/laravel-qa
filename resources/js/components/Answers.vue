@@ -11,9 +11,10 @@
             <h2>{{ title }}</h2>
             <hr>
             <answer
-              v-for="answer in answers"
+              v-for="(answer, index) in answers"
               :key="answer.id"
               :answer="answer"
+              @deleted="remove(index)"
             />
             <div class="text-center mt-3">
               <button
@@ -70,6 +71,10 @@ export default {
           this.answers.push(...data.data);
           this.nextUrl = data.next_page_url;
         });
+    },
+    remove(index) {
+      this.answers.splice(index, 1);
+      this.count -= 1;
     },
   },
 };
