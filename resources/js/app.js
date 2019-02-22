@@ -30,7 +30,7 @@ Vue.use(Authorization);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 Vue.component('user-info', require('./components/UserInfo.vue'));
-Vue.component('answer', require('./components/Answer.vue'));
+Vue.component('answers', require('./components/Answers.vue'));
 Vue.component('vote', require('./components/Vote.vue'));
 
 /**
