@@ -66,7 +66,7 @@ class QuestionsController extends Controller
     public function edit(Question $question)
     {
        $this->authorize('update', $question);
-       return view('questions.edit', compact('question')); 
+       return view('questions.edit', compact('question'));
     }
 
     /**
@@ -80,6 +80,12 @@ class QuestionsController extends Controller
     {
        $this->authorize('update', $question);
        $question->update($request->only('title', 'body'));
+       if ($request->expectsJson()) {
+         return response()->json([
+           'message' => 'Your question has been updated',
+           'body_html' => $question->body_html
+         ]);
+       }
        return redirect()->route('questions.index')->with('success', 'Your question has been updated');
     }
 
@@ -93,6 +99,12 @@ class QuestionsController extends Controller
     {
         $this->authorize('delete', $question);
         $question->delete();
+
+        if (request()->expectsJson()) {
+          return response()->json([
+            'message' => 'Your question has been deleted'
+          ]);
+        }
         return redirect()->route('questions.index')->with('success', 'Your question has been deleted');
     }
 }

@@ -4,18 +4,17 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import VueIziToast from 'vue-izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import Authorization from './authorization/authorize';
+
 require('./bootstrap');
 require('./fontawesome');
 
 window.Vue = require('vue');
 
-import VueIziToast from 'vue-izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
-import Authorization from './authorization/authorize';
-
 Vue.use(VueIziToast);
 Vue.use(Authorization);
-
 
 
 /**
@@ -29,9 +28,8 @@ Vue.use(Authorization);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
-Vue.component('user-info', require('./components/UserInfo.vue'));
-Vue.component('answers', require('./components/Answers.vue'));
-Vue.component('vote', require('./components/Vote.vue'));
+Vue.component('question-page', require('./pages/QuestionPage.vue'));
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -40,5 +38,5 @@ Vue.component('vote', require('./components/Vote.vue'));
  */
 
 const app = new Vue({
-    el: '#app'
+  el: '#app',
 });
