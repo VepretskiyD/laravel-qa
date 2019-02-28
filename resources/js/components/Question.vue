@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="card">
         <form
-          v-if="editing"
+          v-show="authorize('modify', question) && editing"
           class="card-body"
           @submit.prevent="update"
         >
@@ -45,7 +45,7 @@
           </div>
         </form>
         <div
-          v-else
+          v-show="!editing"
           class="card-body"
         >
           <div class="card-title">
@@ -65,7 +65,10 @@
                 name="question"
               />
               <div class="media-body">
-                <div v-html="bodyHtml" />
+                <div
+                  ref="bodyHtml"
+                  v-html="bodyHtml"
+                />
                 <div class="row">
                   <div class="col-4">
                     <div class="ml-auto">
@@ -102,6 +105,7 @@
 </template>
 
 <script>
+import Prism from 'prismjs';
 import Vote from './Vote.vue';
 import UserInfo from './UserInfo.vue';
 import MEditor from './MEditor.vue';
@@ -150,6 +154,10 @@ export default {
       this.body = this.beforeEditCache.body;
       this.title = this.beforeEditCache.title;
       this.editing = false;
+      const el = this.$refs.bodyHtml;
+      if (el) {
+        Prism.highlightAllUnder(el);
+      }
     },
     update() {
       axios.put(this.endpoint, {
