@@ -14,7 +14,7 @@
             class="nav-link"
             href="#preview"
             data-toggle="tab"
-          >Preview</a>
+          />
         </li>
       </ul>
     </div>
@@ -28,6 +28,7 @@
       <div
         id="preview"
         class="tab-pane"
+        v-html="preview"
       >
         Preview...
       </div>
@@ -36,11 +37,20 @@
 </template>
 
 <script>
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
+
 export default {
   props: {
     body: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    preview() {
+      return md.render(this.body);
     },
   },
 };
