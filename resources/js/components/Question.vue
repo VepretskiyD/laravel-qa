@@ -18,12 +18,14 @@
           <div class="media">
             <div class="media-body">
               <div class="form-group">
-                <textarea
-                  v-model="body"
-                  class="form-control"
-                  rows="10"
-                  required
-                />
+                <m-editor :body="body">
+                  <textarea
+                    v-model="body"
+                    class="form-control"
+                    rows="10"
+                    required
+                  />
+                </m-editor>
               </div>
               <button
                 class="btn btn-primary"
@@ -102,11 +104,13 @@
 <script>
 import Vote from './Vote.vue';
 import UserInfo from './UserInfo.vue';
+import MEditor from './MEditor.vue';
 
 export default {
   components: {
     Vote,
     UserInfo,
+    MEditor,
   },
   props: {
     question: {
